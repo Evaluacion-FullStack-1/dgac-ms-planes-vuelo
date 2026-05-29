@@ -11,7 +11,6 @@ public class PlanVueloMapper {
     public PlanVuelo toEntity(PlanVueloRequestDTO dto) {
         PlanVuelo plan = new PlanVuelo();
 
-        plan.setCodigoPlan(dto.getCodigoPlan());
         plan.setDroneId(dto.getDroneId());
         plan.setPilotoId(dto.getPilotoId());
         plan.setEmpresaMandanteId(dto.getEmpresaMandanteId());
@@ -20,7 +19,6 @@ public class PlanVueloMapper {
         plan.setFechaVuelo(dto.getFechaVuelo());
         plan.setHoraInicio(dto.getHoraInicio());
         plan.setHoraFin(dto.getHoraFin());
-        plan.setEstado(dto.getEstado());
         plan.setDescripcion(dto.getDescripcion());
 
         return plan;
@@ -46,7 +44,6 @@ public class PlanVueloMapper {
     }
 
     public void updateEntity(PlanVuelo plan, PlanVueloRequestDTO dto) {
-        plan.setCodigoPlan(dto.getCodigoPlan());
         plan.setDroneId(dto.getDroneId());
         plan.setPilotoId(dto.getPilotoId());
         plan.setEmpresaMandanteId(dto.getEmpresaMandanteId());
@@ -55,7 +52,6 @@ public class PlanVueloMapper {
         plan.setFechaVuelo(dto.getFechaVuelo());
         plan.setHoraInicio(dto.getHoraInicio());
         plan.setHoraFin(dto.getHoraFin());
-        plan.setEstado(dto.getEstado());
         plan.setDescripcion(dto.getDescripcion());
     }
 }

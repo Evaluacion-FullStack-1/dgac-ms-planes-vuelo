@@ -43,6 +43,10 @@ public class PlanVueloService {
 
     public PlanVueloResponseDTO crearPlan(PlanVueloRequestDTO dto) {
         PlanVuelo plan = planVueloMapper.toEntity(dto);
+
+        plan.setCodigoPlan("PV-" + System.currentTimeMillis());
+        plan.setEstado("PENDIENTE");
+
         PlanVuelo planGuardado = planVueloRepository.save(plan);
 
         return planVueloMapper.toDTO(planGuardado);

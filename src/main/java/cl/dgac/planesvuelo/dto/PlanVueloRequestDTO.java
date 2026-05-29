@@ -10,9 +10,6 @@ import java.time.LocalTime;
 @Data
 public class PlanVueloRequestDTO {
 
-    @NotBlank(message = "El código del plan es obligatorio")
-    private String codigoPlan;
-
     @NotNull(message = "El ID del drone es obligatorio")
     private Long droneId;
 
@@ -36,9 +33,6 @@ public class PlanVueloRequestDTO {
 
     @NotNull(message = "La hora de fin es obligatoria")
     private LocalTime horaFin;
-
-    @NotBlank(message = "El estado es obligatorio")
-    private String estado;
 
     @NotBlank(message = "La descripción es obligatoria")
     private String descripcion;
