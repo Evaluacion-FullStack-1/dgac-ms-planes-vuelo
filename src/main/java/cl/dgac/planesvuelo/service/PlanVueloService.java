@@ -17,14 +17,16 @@ public class PlanVueloService {
 
     private final PlanVueloRepository planVueloRepository;
     private final PlanVueloMapper planVueloMapper;
-    private final WebClient.Builder webClientBuilder;
+    
+    // Inyectamos el WebClient pre-configurado para balanceo de carga
+    private final WebClient webClientRestriccionesAereas;
 
     public PlanVueloService(PlanVueloRepository planVueloRepository,
                             PlanVueloMapper planVueloMapper,
-                            WebClient.Builder webClientBuilder) {
+                            WebClient webClientRestriccionesAereas) {
         this.planVueloRepository = planVueloRepository;
         this.planVueloMapper = planVueloMapper;
-        this.webClientBuilder = webClientBuilder;
+        this.webClientRestriccionesAereas = webClientRestriccionesAereas;
     }
 
     public List<PlanVueloResponseDTO> listarPlanes() {
@@ -44,6 +46,7 @@ public class PlanVueloService {
     public PlanVueloResponseDTO crearPlan(PlanVueloRequestDTO dto) {
         PlanVuelo plan = planVueloMapper.toEntity(dto);
 
+        // Generamos el código de plan y seteamos estado inicial
         plan.setCodigoPlan("PV-" + System.currentTimeMillis());
         plan.setEstado("PENDIENTE");
 
@@ -105,9 +108,10 @@ public class PlanVueloService {
     }
 
     public String consultarMicroservicioRestriccionesAereas() {
-        return webClientBuilder.build()
+        // Usamos la ruta relativa y el cliente inyectado; Eureka resuelve la IP y puerto
+        return webClientRestriccionesAereas
                 .get()
-                .uri("http://localhost:8087/api/restricciones-aereas")
+                .uri("/api/restricciones-aereas")
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();

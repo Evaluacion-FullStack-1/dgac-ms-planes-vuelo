@@ -4,6 +4,8 @@ import cl.dgac.planesvuelo.dto.PlanVueloRequestDTO;
 import cl.dgac.planesvuelo.dto.PlanVueloResponseDTO;
 import cl.dgac.planesvuelo.service.PlanVueloService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,7 +44,21 @@ public class PlanVueloController {
         return ResponseEntity.ok(planVueloService.buscarPorId(id));
     }
 
-    @Operation(summary = "Crear nuevo plan de vuelo", description = "Registra y somete a evaluación un nuevo plan de vuelo en el sistema.")
+    @Operation(
+            summary = "Crear nuevo plan de vuelo", 
+            description = "Registra y somete a evaluación un nuevo plan de vuelo en el sistema.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Datos para registrar un nuevo plan de vuelo",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    name = "Ejemplo de Registro",
+                                    value = "{\n  \"codigoPlan\": \"PV-2026-001\",\n  \"pilotoId\": 105,\n  \"droneId\": 42,\n  \"origen\": \"Aeródromo Los Cerrillos\",\n  \"destino\": \"Plaza de Armas, Santiago\",\n  \"fechaHoraSalida\": \"2026-07-15T10:00:00\",\n  \"fechaHoraLlegada\": \"2026-07-15T12:30:00\",\n  \"altitudMaximaMetros\": 120,\n  \"estado\": \"PENDIENTE\"\n}"
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Plan de vuelo creado exitosamente"),
             @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
@@ -55,7 +71,21 @@ public class PlanVueloController {
         return ResponseEntity.status(HttpStatus.CREATED).body(planCreado);
     }
 
-    @Operation(summary = "Actualizar plan de vuelo", description = "Modifica los datos o el estado de un plan de vuelo existente.")
+    @Operation(
+            summary = "Actualizar plan de vuelo", 
+            description = "Modifica los datos o el estado de un plan de vuelo existente.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Nuevos datos del plan de vuelo (ej. cambio de estado a APROBADO)",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    name = "Ejemplo de Actualización",
+                                    value = "{\n  \"codigoPlan\": \"PV-2026-001\",\n  \"pilotoId\": 105,\n  \"droneId\": 42,\n  \"origen\": \"Aeródromo Los Cerrillos\",\n  \"destino\": \"Plaza de Armas, Santiago\",\n  \"fechaHoraSalida\": \"2026-07-15T10:00:00\",\n  \"fechaHoraLlegada\": \"2026-07-15T12:30:00\",\n  \"altitudMaximaMetros\": 120,\n  \"estado\": \"APROBADO\"\n}"
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Plan de vuelo actualizado exitosamente"),
             @ApiResponse(responseCode = "404", description = "Plan de vuelo no encontrado"),
